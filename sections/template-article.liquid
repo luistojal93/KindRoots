@@ -5,7 +5,6 @@
                 <div class="flex items-center justify-center">
                     <div class="max-w-7xl text-center">
                         <a href="{{ blog.url }}" class="text-base uppercase text-gray-500 hover:text-gray-900 font-bold">{{ blog.title }}</a>
-            
                         <h1 class="text-4xl md:text-6xl font-medium">
                             {{ article.title }}
                         </h1>
@@ -18,9 +17,8 @@
                             <small>{{ article.author}}</small>   
                         {% endif %}
                     </div>
-
                 </div>
-               
+     
             {% when 'article_published_date' %}
                 <div class="flex items-center justify-center">
                     <div class="max-w-7xl text-center">
@@ -48,72 +46,62 @@
                         {{ article.content }}
                     </div>
                 </div>
-             
-    
-            {% else %}
-                
+            {% else %}       
         {% endcase %}
-        
     {% endfor %}
-    
 </article>
-
 
 {% if blog.comments_enabled? %}
     <div id="comments" class="my-8">
-        {% if form.errors %}
-            <div class="border p-5">
-                <div class="flex flex-row items-center w-full my-3">
-                    <div class="text-red-500">
-                        {% render 'icon-failed' %}
-                    </div>
-                    <div class="text-sm font-medium ml-3">
-                        Oh no! Your comment was not posted successufully.
-                    </div>
-                </div>
-                <ul class="px-4 mb-3 ml-7 list-decimal">
-                    {% for error in form.errors %}
-                        <li>
-                            <span>{{ form.errors.message[error] }}</span>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% elsif form.posted_successfully? %}
-                <div class="flex flex-row items-center w-full my-3 p-5">
-                    <div class="text-green-500">
-                        {% render 'icon-sucess' %}
-                    </div>
-                    <div class="text-sm font-medium ml-3">Comment was posted succesufully</div>
-                </div>            
-            {% endif %}
+        
             {% if article.comments_count > 0 %}
                 <div class="flex-1 items-center-justify-center mx-auto max-w-4xl px-4">
                     <h1 class="text-lg mb-4 font-medium">See what people are saying</h1>
-
                     {% paginate article.comments by 5 %}
                         {% for comment in article.comments %}
                             <div class="flex-1 border my-4 px-4 py-2 sm:px-6 sm:py-4 loading-relaxed">
                                 <span class="comment-author">{{ comment.author }}</span> <span class="text-xs text-gray-400">{{ comment.created_at | date: format: 'default' }}</span>
                                 <p class="text-sm">{{ comment.content }}</p>
-                            </div>
-                            
+                            </div> 
                         {% endfor %}
                         {% if paginate.pages > 1 %}
-                            {{ paginate |  default_pagination }}
-                            
+                            {{ paginate |  default_pagination }} 
                         {% endif %}
                     {% endpaginate %}
                 </div>
-                {% else %}
-                There is no comments on these article.
-                
-            {% endif %}
+            {% else %}
+            There is no comments on these article.         
+        {% endif %}
     </div>
-
     <div id="comment_form" class="mb-8">
         {% form 'new_comment', article %}
             <div class="flex-1 mx-auto items-center max-w-4xl px-4">
+                {% if form.errors %}
+                    <div class="border p-5">
+                        <div class="flex flex-row items-center w-full my-3">
+                            <div class="text-red-500">
+                                {% render 'icon-failed' %}
+                            </div>
+                            <div class="text-sm font-medium ml-3">
+                                Oh no! Your comment was not posted successufully.
+                            </div>
+                        </div>
+                        <ul class="px-4 mb-3 ml-7 list-decimal">
+                            {% for error in form.errors %}
+                                <li>
+                                    <span>{{ form.errors.message[error] }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% elsif form.posted_successfully? %}
+                    <div class="flex flex-row items-center w-full my-3 p-5">
+                        <div class="text-green-500">
+                            {% render 'icon-sucess' %}
+                        </div>
+                    <div class="text-sm font-medium ml-3">Comment was posted succesufully</div>
+                </div>            
+                {% endif %}
                 <div class="px-1 md:flex mb-3">
                     <div class="px-3 md:w-1/2">
                         <label for="comment_author" class="text-gray-700 font-medium uppercase text-xs mb-2">Name</label>
@@ -139,10 +127,8 @@
                 <div class="px-1 md:flex mb-3">
                     <div class="md:w-full px-3">
                         <input type="submit" class="w-full cursor-pointer px-4 py-2 border text-base font-medium text-white bg-gray-900 hover:bg-gray-500" value="Post Comment">
-                    
                     </div>
                 </div>
-
             </div>
         {% endform %}
     </div>
