@@ -1,4 +1,4 @@
-<article>
+<article class="py-8">
     {% for block in section.blocks %}
         {% case block.type %}
             {% when 'article_title' %}
@@ -12,7 +12,7 @@
                     </div>
                 </div>    
             {% when 'article-author' %}
-                <div class="flex items-center jutify-center">
+                <div class="flex items-center justify-center">
                     <div class="max-w-7xl text-center">
                         {% if section.settings.enabled_author %}
                             <small>{{ article.author}}</small>   
@@ -22,29 +22,32 @@
                 </div>
                
             {% when 'article_published_date' %}
-                <div class="flex items-center jutify-center">
+                <div class="flex items-center justify-center">
                     <div class="max-w-7xl text-center">
                     {% if section.settings.enabled_published_date %}
                         <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: format: 'on_date' }}</time>
                     {% endif %}
                     </div>
-
                 </div>
             {% when 'featured_image' %}
-                <div class="max-w-7xl bg-blue-100 rounded-lg mx-2 md:max-auto overflow-hidden">
+                <div class="flex items-center justify-center">
+
+                    <div class="max-w-7xl bg-blue-100 rounded-lg mx-2 md:max-auto overflow-hidden my-4">
                     {% if article.image != blank %}
                         <img class="w-full h-80 md:h-96 object-cover object-center" src="{{ article.image | img_url: 'large' }}" loading="lazy" alt="{{ article.image.alt }}">
                     {% else %}
-                        {% assign placeholder_image = 'lifestyle-2' %} 
+                        {% assign placeholder_image = 'lifestyle-1' %} 
                         {{ placeholder_image | placeholder_svg_tag: 'w-full h-80 md:h-96 object-cover object-center p-5' }}
                     {% endif %}
-                </div>
                     </div>
-
                 </div>
+
             {% when 'article_content' %}
-               
-                <div class=""> {{ article.content }}</div>
+                <div class="flex items-center justify-center"> 
+                    <div class="max-w-4xl">
+                        {{ article.content }}
+                    </div>
+                </div>
              
     
             {% else %}
@@ -54,6 +57,32 @@
     {% endfor %}
     
 </article>
+
+
+{% if block.comments_enabled? %}
+    <div id="comments" class="my-8">
+        {% if article.comments_count > 0 %}
+            {% else %}
+                There is no comments on these article.
+            
+        {% endif %}
+    </div>
+
+    <div id="comment_form" class="mb-8">
+        {% form 'new-comment', article %}
+            <div class="flex-1 mx-auto items-center max-w-4xl px-4">
+                <div class="px-1 md:flex mb-3">
+                    <div class="px-3 md:w-1/2">
+                    <label for="comment_author" class="text-gray-700 font-medium uppercase text-xs mb-2">Name</label>
+                        <input type="text" name="comment[author]" id="comment_author" class="w-full text-gray-700 border py-3 px-4 mb-3 focus:outline-none">
+                    </div>
+                    <div class="px-3 md:w-1/2">
+                    </div>
+                </div>
+            </div>
+        {% endform %}
+    </div>
+{% endif %}
 
 
 
