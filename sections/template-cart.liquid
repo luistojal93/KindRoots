@@ -29,13 +29,17 @@
                                         {% endif %}
                                     </a>
                                 </td>
-                                <td>
+                                <td class="py-4 px-2 flex flex-col justify-content">
                                     <a href="{{ item.url }}" class="my-1">{{ item.product.title | truncatewords: 5 }}</a>
                                     <span class="text-sm text-gray-500 my-1">{{ item.variant.title }}</span>
-                                    <a href="/cart/change?line={{ item.line }}&quantity=0" class="text-sm font-medium text-red-500 my-1">remove</a>
+                                    <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0" class="text-sm font-medium text-red-500 my-1">remove</a>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-900">{{ item.quantity }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-900">{{ item.line_price | money }}</td>
+                                <td class="px-4 py-2">
+                                    <input type="number" name="updates[]" value="{{ item.quantity }}" min="1" id="updates-{{ forloop.index }}" class="w-20 border p-2">
+                                </td>
+                                <td class="px-4 py-2 text-sm">
+                                    {{ item.line_price | money }}
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
