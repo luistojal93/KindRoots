@@ -1,4 +1,3 @@
-{% assign main_menu_linklist = linklists[section.settings.menu].links %}
 <div class="relative bg-white" x-data="{ mobileMenuOpen: false }">
   <div class="mx-auto px-4 sm:px-6">
     <div class="flex justify-between items-center py-6 md:justify-start md:space-x-10">
@@ -6,7 +5,6 @@
         <div class="flex justify-start lg:flex-1 truncate">
             <h1 class="text-xl font-bold truncate">{{ section.settings.menu_mobile_title }}</h1>
         </div>
-
         <div class="-mr-2 -my-2 ml-3 md:hidden">
             <button x-on:click="mobileMenuOpen = true" 
             type="button" 
@@ -14,16 +12,18 @@
                 {% render 'icon-menu' %}
             </button>
         </div>
-
       <!-- NAVIGATION MENU -->
       <nav class="hidden md:flex space-x-10">
-        
-        {% for link in main_menu_linklist %}
+        {% if section.settings.menu.links == blank %}
+            {% assign main_menu_linklist = linklists[section.settings.menu].links %}
+        {% else %}
+            {% assign main_menu_linklist = section.settings.menu.links %}  
+        {% endif %}
 
-             {% if link.links != blank %}
+        {% for link in main_menu_linklist %}
+            {% if link.links != blank %}
                 {% assign link_handle = link.handle | replace: '-', '_' %}
                 <div x-data="{ {{ link_handle }}: false }" class="relative">
-
                     <button x-on:click="{{ link_handle  }} = ! {{ link_handle  }}" class="inline-flex items-center text-base text-gray-500 hover:text-gray-900">
                     {{ link.title }}
                     {% render 'icon-dropdown' %}
@@ -54,9 +54,9 @@
                 </div>
             </div>
 
-             {% else %}
+            {% else %}
                 <div class="relative">
-                    <a ahref="{{ link.url }}" class="text-base text-gray-500 hover:text-gray-900">
+                    <a href="{{ link.url }}" class="text-base text-gray-500 hover:text-gray-900">
                     {{ link.title }}
                     </a>
                 </div>

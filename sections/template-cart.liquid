@@ -18,16 +18,21 @@
                     <tbody>
                         {% for item in cart.items %}
                             <tr class="table-row">
-                                <td>
+                                <td class="py-4 px-2 flex flex-col justify-center">
                                     <a href="{{ item.url }}">
                                         {% if item.image %}
+                                            <img src="{{ item.image | img_url: "samll" }}" alt="{{ item.title | escape }}" class="w-20 h-20 object-cover border">
                                         {% else %}
                                             {{ 'product-1' |  placeholder_svg_tag: 'w-20 h-20 object-cover border' }}
                                             
                                         {% endif %}
                                     </a>
                                 </td>
-                                <td></td>
+                                <td>
+                                    <a href="{{ item.url }}" class="my-1">{{ item.product.title | truncatewords: 5 }}</a>
+                                    <span class="text-sm text-gray-500 my-1">{{ item.variant.title }}</span>
+                                    <a href="/cart/change?line=1&quantity=0" class="text-sm font-medium text-red-500 my-1">remove</a>
+                                </td>
                                 <td></td>
                                 <td></td>
                             </tr>
