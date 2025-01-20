@@ -6,7 +6,7 @@
                 "subtotal": {
                     "type": "subtotal"
                 },
-                "update-button": {
+                "update_button": {
                     "type": "update_button"
                 },
                 "checkout_button": {

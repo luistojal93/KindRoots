@@ -52,7 +52,7 @@
                             <textarea name="note" id="cart_notes" class="w-full md:max-w-lg resize-none border h-20"></textarea></div>
                     </div>
                     <div class="w-full my-4 md:w-80">
-                        {% for block in section.block %}
+                        {% for block in section.blocks %}
                             {% case block.type %}
                                 {% when 'subtotal' %}
                                     <h3 class="text-xl">Subtotal: {{ cart.total_price | money }}</h3>
